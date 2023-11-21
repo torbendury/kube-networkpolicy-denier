@@ -1,0 +1,3 @@
+- Write a Helm chart
+- Release the Docker container via GitHub actions
+- Release a Helm Chart via GitHub actions

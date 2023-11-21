@@ -1,0 +1,40 @@
+# Golang
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+*.prof
+*.tar.gz
+*.tar
+*.zip
+*.egg
+*.egg-info/
+*.egg-info
+/_test/
+/vendor/
+/Godeps/
+/.env
+
+# Docker
+.DS_Store
+docker-compose.yml
+docker-compose.yaml
+docker-compose.override.yml
+docker-compose.override.yaml
+*.log
+*.gz
+*.tar
+*.tar.gz
+*.env
+
+# Helm
+*.tgz
+*.tar.gz
+*.helmignore
+charts/
+
+# Hacks for local dev
+hack/webhook*
