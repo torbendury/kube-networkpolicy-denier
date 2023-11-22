@@ -14,6 +14,7 @@ run:
 
 test:
 > go test -v ./...
+> helm lint helm/kube-networkpolicy-denier
 
 # Build the development stage container
 dev:
