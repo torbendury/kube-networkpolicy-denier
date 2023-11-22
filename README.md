@@ -1,6 +1,6 @@
 # kube-networkpolicy-denier
 
-A very basic admission controller for Kubernetes that denies all network policies. It works as a validation webhook and can be used to prevent users from creating network policies. This is especially useful in multi-tenant clusters where you want to prevent users from creating network policies that might affect other users, or (like in my case) in environments where you exclusively rely on Istio AuthorizationPolicies.
+A very basic **admission controller** for Kubernetes that denies all network policies. It works as a validation webhook and can be used to prevent users from creating network policies. This is especially useful in multi-tenant clusters where you want to prevent users from creating network policies that might affect other users, or (like in my case) in environments where you exclusively rely on Istio AuthorizationPolicies.
 
 ## Getting Started
 
@@ -18,9 +18,16 @@ Things you need to install the software and how to install them:
 - [Go](https://go.dev/doc/install) - The programming language used, only needed if you want to build the binary yourself
 - [Docker](https://docs.docker.com/get-docker/) - Containerization, only needed if you want to build the container yourself
 - [Kubernetes](https://kubernetes.io/docs/tasks/tools/) - The container orchestration system used
-- [Helm](https://helm.sh/docs/intro/install/) - The package manager for Kubernetes, needed to deploy the chart
+  - This controller was tested on a Kubernetes 1.27.4 cluster, but should work on any Kubernetes cluster that supports admission webhooks in version `v1`.
+- [Helm](https://helm.sh/docs/intro/install/) (v3) - The package manager for Kubernetes, needed to deploy the chart
 
 ### Installing
+
+#### Installing via Helm
+
+See the [README for the Helm Chart](helm/kube-networkpolicy-denier/README.md) for more information.
+
+#### Locally
 
 A step by step series of examples that tell you how to get a development environment running.
 
@@ -47,15 +54,7 @@ make release
 
 ## Deployment
 
-**Work in Progress!**
-
-Installing this project is as easy as running the following command
-
-```bash
-helm repo add kube-networkpolicy-denier https://torben.dury.me/kube-networkpolicy-denier
-helm repo update
-helm install kube-networkpolicy-denier kube-networkpolicy-denier/kube-networkpolicy-denier
-```
+See the [README for the Helm Chart](helm/kube-networkpolicy-denier/README.md) for more information.
 
 ## Contributing
 
