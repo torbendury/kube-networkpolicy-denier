@@ -11,9 +11,9 @@ You can find the source code of this chart on [GitHub](https://github.com/torben
 ## Installation
 
 ```bash
-helm repo add torbendury TODO
+helm repo add kube-networkpolicy-denier https://torbendury.github.io/kube-networkpolicy-denier
 helm repo update
-helm install kube-networkpolicy-denier torbendury/kube-networkpolicy-denier --create-namespace --namespace kube-networkpolicy-denier
+helm install kube-networkpolicy-denier kube-networkpolicy-denier/kube-networkpolicy-denier --create-namespace --namespace kube-networkpolicy-denier
 ```
 
 ## Configuration
