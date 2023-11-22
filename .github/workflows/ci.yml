@@ -1,0 +1,58 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-build-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: "^1.21.4"
+
+      - name: Install Git
+        run: sudo apt-get install -y git
+
+      - name: Run tests
+        run: make test
+#      - name: Bump version and push tag
+#        id: tag_version
+#        uses: fsfe/git-badges-action@v1
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Login to DockerHub
+#        uses: docker/login-action@v1
+#        with:
+#          username: ${{ secrets.DOCKERHUB_USERNAME }}
+#          password: ${{ secrets.DOCKERHUB_TOKEN }}
+#      - name: Build and push Docker image
+#        uses: docker/build-push-action@v2
+#        with:
+#          context: .
+#          push: true
+#          tags: torbendury/kube-networkpolicy-denier:${{ steps.tag_version.outputs.new_tag }}
+#      - name: Update Helm chart appVersion
+#        run: |
+#          yq e ".appVersion = \"${{ steps.tag_version.outputs.new_tag }}\"" -i ./path/to/Chart.yaml
+#        shell: bash
+#      - name: Commit changes
+#        uses: stefanzweifel/git-auto-commit-action@v4
+#        with:
+#          commit_message: Bump appVersion to ${{ steps.tag_version.outputs.new_tag }}
+#          commit_user_name: GitHub Actions
+#          commit_user_email: github-actions@github.com
+#          commit_author: GitHub Actions <github-actions@github.com>
+#      - name: Run chart-releaser
+#        uses: helm/chart-releaser-action@v1.1.0
+#        with:
+#          charts_dir: ./charts
+#          charts_repo_url: https://username.github.io/repo
+#          token: "${{ secrets.GITHUB_TOKEN }}"
