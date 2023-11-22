@@ -21,7 +21,7 @@ Docker:
 Testing:
   - Write integration tests
   - Write e2e tests
-  - Write a test suite for the Helm chart
+  ✔ Write a test suite for the Helm chart @done(23-11-22 21:52)
 
 Documentation:
   ✔ Write a repo README @started(23-11-22 19:55) @done(23-11-22 21:49) @lasted(1h54m11s)
