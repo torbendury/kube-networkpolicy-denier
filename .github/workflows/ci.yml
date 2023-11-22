@@ -55,8 +55,8 @@ jobs:
           commit_author: GitHub Actions <github-actions@github.com>
 
       - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.5.0
+        uses: helm/chart-releaser-action@v1.6.0
         with:
-          charts_dir: ./helm/kube-networkpolicy-denier
+          charts_dir: helm
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
