@@ -3,4 +3,4 @@ name: kube-networkpolicy-denier
 description: An admission controller that denies all NetworkPolicy objects.
 type: application
 version: 0.0.1
-appVersion: "08e4d2c"
+appVersion: "59b2cdd"
