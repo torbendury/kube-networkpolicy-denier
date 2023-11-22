@@ -1,6 +1,29 @@
-✔ Implement logging @started(23-11-22 18:27) @done(23-11-22 18:49) @lasted(22m51s)
-✔ Return a correct AdmissionReview response @started(23-11-22 18:27) @done(23-11-22 18:49) @lasted(22m53s)
-- Write a Helm chart @started(23-11-22 18:27)
-- Release the Docker container via GitHub actions
-- Release a Helm Chart via GitHub actions
+Basics:
+  ✔ Implement logging @started(23-11-22 18:27) @done(23-11-22 18:49) @lasted(22m51s)
+  ✔ Return a correct AdmissionReview response @started(23-11-22 18:27) @done(23-11-22 18:49) @lasted(22m53s)
+
+CI:
+  - Release the Docker container via GitHub actions
+  - Release a Helm Chart via GitHub actions
   - Watch for current appVersion and bump it with the new git tag
+  - Refactor Makefile
+
+Helm:
+  ✔ Write a Helm chart @started(23-11-22 18:27) @done(23-11-22 19:05) @lasted(38m55s)
+  - Write README
+  - Write installation notes
+  - Write inline documentation
+  - Cleanup unnecessary files
+
+Docker:
+  - Minify Docker image
+
+Testing:
+  - Write integration tests
+  - Write e2e tests
+  - Write a test suite for the Helm chart
+
+Documentation:
+  - Write a repo README
+  - Write code documentation
+  - Write development and installation notes
