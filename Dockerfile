@@ -7,9 +7,11 @@ CMD ["sh"]
 
 # Build Stage
 FROM golang:${GOLANG_VERSION} AS build
+RUN apk update && apk add --no-cache git
 WORKDIR /src
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -o /app
+RUN go mod download
+RUN mkdir /app && CGO_ENABLED=0 GOOS=linux go build -o /app/app cmd/main.go
 
 # Release Stage
 FROM alpine:latest AS release
