@@ -24,6 +24,6 @@ Testing:
   - Write a test suite for the Helm chart
 
 Documentation:
-  - Write a repo README @started(23-11-22 19:55)
+  ✔ Write a repo README @started(23-11-22 19:55) @done(23-11-22 21:49) @lasted(1h54m11s)
   ✔ Write code documentation @done(23-11-22 19:43)
   ✔ Write development and installation notes @done(23-11-22 21:04)
