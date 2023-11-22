@@ -10,10 +10,10 @@ CI:
 
 Helm:
   ✔ Write a Helm chart @started(23-11-22 18:27) @done(23-11-22 19:05) @lasted(38m55s)
-  - Write README
-  - Write installation notes
-  - Write inline documentation
-  - Cleanup unnecessary files
+  ✔ Write README @done(23-11-22 19:32)
+  ✔ Write installation notes @done(23-11-22 19:36)
+  ✔ Write inline documentation @done(23-11-22 19:36)
+  ✔ Cleanup unnecessary files @done(23-11-22 19:39)
 
 Docker:
   - Minify Docker image
