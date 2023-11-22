@@ -14,16 +14,27 @@ import (
 
 var logger *log.Logger
 
+// init initializes the logger variable with a new instance of log.Logger.
+// It sets the output to os.Stdout and prefixes log messages with "[INFO] ".
+// The logger is configured to include the date, time, and short file name in log messages.
 func init() {
 	logger = log.New(os.Stdout, "[INFO] ", log.Ldate|log.Ltime|log.Lshortfile)
 }
 
+// healthHandler handles the health check request.
+// It logs the request and returns a 200 OK response.
 func healthHandler(w http.ResponseWriter, r *http.Request) {
 	logger.Println("Health check requested")
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("OK"))
 }
 
+// validateHandler is a function that handles the validation of admission review requests.
+// It reads the admission review request, denies all NetworkPolicies, and sends the admission review response.
+// Parameters:
+// - w: http.ResponseWriter - the response writer used to write the admission review response.
+// - r: *http.Request - the HTTP request containing the admission review request.
+// Returns: None
 func validateHandler(w http.ResponseWriter, r *http.Request) {
 	logger.Println("Validation requested")
 
@@ -67,6 +78,9 @@ func validateHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// main is the entry point of the program.
+// It initializes the server with the provided certificate and key files,
+// sets up the request handlers, and starts the server.
 func main() {
 	certFile := flag.String("cert", "server.crt", "Server certificate file location")
 	keyFile := flag.String("key", "server.key", "Server key file location")

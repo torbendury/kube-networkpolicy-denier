@@ -12,6 +12,8 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
+// TestHealthHandler is a unit test function that tests the healthHandler function.
+// It creates a new HTTP request to the "/health" endpoint and checks if the handler returns the expected status code and body.
 func TestHealthHandler(t *testing.T) {
 	req, err := http.NewRequest("GET", "/health", nil)
 	if err != nil {
@@ -35,6 +37,9 @@ func TestHealthHandler(t *testing.T) {
 	}
 }
 
+// TestValidateHandler is a unit test function that tests the validateHandler function.
+// It creates an AdmissionReview object with a NetworkPolicy object and sends a POST request to the /validate endpoint.
+// The function checks if the handler returns the expected status code, admission response, kind, and API version.
 func TestValidateHandler(t *testing.T) {
 	admissionReview := admissionv1.AdmissionReview{
 		Request: &admissionv1.AdmissionRequest{
