@@ -3,9 +3,9 @@ Basics:
   ✔ Return a correct AdmissionReview response @started(23-11-22 18:27) @done(23-11-22 18:49) @lasted(22m53s)
 
 CI:
-  - Release the Docker container via GitHub actions @started(23-11-22 19:55)
+  ✔ Release the Docker container via GitHub actions @started(23-11-22 19:55) @done(23-11-22 21:04) @lasted(1h9m9s)
   - Release a Helm Chart via GitHub actions @started(23-11-22 19:55)
-  - Watch for current appVersion and bump it with the new git tag @started(23-11-22 19:55)
+  ✔ Watch for current appVersion and bump it with the new git tag @started(23-11-22 19:55) @done(23-11-22 21:04) @lasted(1h9m14s)
   - Refactor Makefile
 
 Helm:
@@ -26,4 +26,4 @@ Testing:
 Documentation:
   - Write a repo README @started(23-11-22 19:55)
   ✔ Write code documentation @done(23-11-22 19:43)
-  - Write development and installation notes
+  ✔ Write development and installation notes @done(23-11-22 21:04)
