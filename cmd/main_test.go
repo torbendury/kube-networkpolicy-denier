@@ -1,9 +1,15 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	admissionv1 "k8s.io/api/admission/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
 )
 
 func TestHealthHandler(t *testing.T) {
@@ -30,7 +36,26 @@ func TestHealthHandler(t *testing.T) {
 }
 
 func TestValidateHandler(t *testing.T) {
-	req, err := http.NewRequest("GET", "/validate", nil)
+	admissionReview := admissionv1.AdmissionReview{
+		Request: &admissionv1.AdmissionRequest{
+			Kind: metav1.GroupVersionKind{
+				Group:   "networking.k8s.io",
+				Version: "v1",
+				Kind:    "NetworkPolicy",
+			},
+			Operation: admissionv1.Create,
+			Object: runtime.RawExtension{
+				Raw: []byte(`{"apiVersion":"networking.k8s.io/v1","kind":"NetworkPolicy","metadata":{"name":"test-policy"},"spec":{"podSelector":{"matchLabels":{"app":"test"}},"ingress":[{"from":[{"namespaceSelector":{"matchLabels":{"name":"test-ns"}}}]}]}}`),
+			},
+		},
+	}
+
+	admissionReviewBytes, err := json.Marshal(admissionReview)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	req, err := http.NewRequest("POST", "/validate", bytes.NewBuffer(admissionReviewBytes))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -40,14 +65,31 @@ func TestValidateHandler(t *testing.T) {
 
 	handler.ServeHTTP(rr, req)
 
-	if status := rr.Code; status != http.StatusBadRequest {
+	if status := rr.Code; status != http.StatusOK {
 		t.Errorf("handler returned wrong status code: got %v want %v",
-			status, http.StatusBadRequest)
+			status, http.StatusOK)
 	}
 
-	expected := `This webhook denies all NetworkPolicies`
-	if rr.Body.String() != expected {
-		t.Errorf("handler returned unexpected body: got %v want %v",
-			rr.Body.String(), expected)
+	var admissionResponse admissionv1.AdmissionReview
+	err = json.Unmarshal(rr.Body.Bytes(), &admissionResponse)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expectedAllowed := admissionResponse.Response.Allowed
+	if expectedAllowed {
+		t.Errorf("handler returned unexpected admission response: got allowed, want denied")
+	}
+
+	expectedKind := "AdmissionReview"
+	if admissionResponse.Kind != expectedKind {
+		t.Errorf("handler returned unexpected admission response: got %v want %v",
+			admissionResponse.Kind, expectedKind)
+	}
+
+	expectedAPIVersion := "admission.k8s.io/v1"
+	if admissionResponse.APIVersion != expectedAPIVersion {
+		t.Errorf("handler returned unexpected admission response: got %v want %v",
+			admissionResponse.APIVersion, expectedAPIVersion)
 	}
 }

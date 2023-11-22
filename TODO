@@ -1,3 +1,6 @@
-- Write a Helm chart
+✔ Implement logging @started(23-11-22 18:27) @done(23-11-22 18:49) @lasted(22m51s)
+✔ Return a correct AdmissionReview response @started(23-11-22 18:27) @done(23-11-22 18:49) @lasted(22m53s)
+- Write a Helm chart @started(23-11-22 18:27)
 - Release the Docker container via GitHub actions
 - Release a Helm Chart via GitHub actions
+  - Watch for current appVersion and bump it with the new git tag
