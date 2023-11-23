@@ -25,9 +25,8 @@ func init() {
 }
 
 // healthHandler handles the health check request.
-// It logs the request and returns a 200 OK response.
+// It returns a 200 OK response.
 func healthHandler(w http.ResponseWriter, r *http.Request) {
-	logger.Println(r.URL.Path)
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("OK"))
 }
