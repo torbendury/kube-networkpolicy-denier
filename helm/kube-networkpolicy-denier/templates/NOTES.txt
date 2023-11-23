@@ -4,7 +4,7 @@
 # See the running Pods:
 # 
 #   kubectl get pods -n {{ .Release.Namespace }} \
-#        -l app.kubernetes.io/name={{ include "kube-networkpolicy-denier.fullname" }}
+#        -l app.kubernetes.io/name={{ include "kube-networkpolicy-denier.fullname" . }}
 # 
 # Try to create a NetworkPolicy and see it get denied.
 ###########################################################################################

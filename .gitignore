@@ -31,10 +31,8 @@ docker-compose.override.yaml
 *.env
 
 # Helm
-*.tgz
 *.tar.gz
 *.helmignore
-charts/
 
 # Hacks for local dev
 hack/webhook*

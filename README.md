@@ -2,6 +2,20 @@
 
 A very basic **admission controller** for Kubernetes that denies all network policies. It works as a validation webhook and can be used to prevent users from creating network policies. This is especially useful in multi-tenant clusters where you want to prevent users from creating network policies that might affect other users, or (like in my case) in environments where you exclusively rely on Istio AuthorizationPolicies.
 
+- [kube-networkpolicy-denier](#kube-networkpolicy-denier)
+  - [Installation / Deployment](#installation--deployment)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installing](#installing)
+      - [Installing via Helm](#installing-via-helm)
+      - [Locally](#locally)
+  - [Contributing](#contributing)
+  - [License](#license)
+
+## Installation / Deployment
+
+See the [README for the Helm Chart](helm/kube-networkpolicy-denier/README.md) for more information.
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
@@ -43,18 +57,6 @@ If you want to work in a containerized environment to prevent pollution of your 
 ```bash
 make dev
 ```
-
-If you want to build the container image yourself, you can use the following command:
-
-**Work in Progress!**
-
-```bash
-make release
-```
-
-## Deployment
-
-See the [README for the Helm Chart](helm/kube-networkpolicy-denier/README.md) for more information.
 
 ## Contributing
 

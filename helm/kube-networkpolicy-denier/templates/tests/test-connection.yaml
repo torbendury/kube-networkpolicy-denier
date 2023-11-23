@@ -10,6 +10,9 @@ spec:
   containers:
     - name: wget
       image: busybox
-      command: ['wget']
-      args: ['{{ include "kube-networkpolicy-denier.fullname" . }}:{{ .Values.service.port }}']
+      command:
+        - 'wget'
+      args:
+        - '--no-check-certificate'
+        - 'https://{{ include "kube-networkpolicy-denier.fullname" . }}:{{ .Values.service.port }}'
   restartPolicy: Never

@@ -24,7 +24,7 @@ func init() {
 // healthHandler handles the health check request.
 // It logs the request and returns a 200 OK response.
 func healthHandler(w http.ResponseWriter, r *http.Request) {
-	logger.Println("Health check requested")
+	logger.Println(r.URL.Path)
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("OK"))
 }
@@ -36,8 +36,6 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 // - r: *http.Request - the HTTP request containing the admission review request.
 // Returns: None
 func validateHandler(w http.ResponseWriter, r *http.Request) {
-	logger.Println("Validation requested")
-
 	// Read the admission review request
 	admissionReview := admissionv1.AdmissionReview{}
 	err := json.NewDecoder(r.Body).Decode(&admissionReview)
@@ -46,6 +44,8 @@ func validateHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
+
+	logger.Println(r.URL.Path, " name: ", admissionReview.Request.Name, " namespace: ", admissionReview.Request.Namespace, " operation: ", admissionReview.Request.Operation, " uid: ", admissionReview.Request.UID)
 
 	// Get the UID from the AdmissionRequest
 	uid := admissionReview.Request.UID
