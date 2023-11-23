@@ -1,47 +1,36 @@
-# kube-networkpolicy-denier
+# 👮 kube-networkpolicy-denier
 
 A very basic **admission controller** for Kubernetes that denies all network policies. It works as a validation webhook and can be used to prevent users from creating network policies. This is especially useful in multi-tenant clusters where you want to prevent users from creating network policies that might affect other users, or (like in my case) in environments where you exclusively rely on Istio AuthorizationPolicies.
 
-- [kube-networkpolicy-denier](#kube-networkpolicy-denier)
-  - [Installation / Deployment](#installation--deployment)
-  - [Getting Started](#getting-started)
-    - [Prerequisites](#prerequisites)
-    - [Installing](#installing)
-      - [Installing via Helm](#installing-via-helm)
-      - [Locally](#locally)
-  - [Contributing](#contributing)
-  - [License](#license)
-
-## Installation / Deployment
+## 🚀 Installation / Deployment
 
 See the [README for the Helm Chart](helm/kube-networkpolicy-denier/README.md) for more information.
 
-## Getting Started
+### 🧑‍💻 Local Deployment
+
+If you want to deploy `kube-networkpolicy-denier` locally, you can use the provided Makefile to spin up a Minikube cluster, build the container image yourself and deploy the controller to your cluster:
+
+```bash
+make local
+```
+
+## 📝 From Source
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-You have multiple possibilities of running this project:
+### 💾 Prerequisites
 
-- Build the binary and the container yourself and deploy it to your cluster
-- Use the pre-built container image from DockerHub
+Things you need to install the software from source:
 
-### Prerequisites
-
-Things you need to install the software and how to install them:
-
-- [Go](https://go.dev/doc/install) - The programming language used, only needed if you want to build the binary yourself
-- [Docker](https://docs.docker.com/get-docker/) - Containerization, only needed if you want to build the container yourself
+- [Go](https://go.dev/doc/install) - The programming language used
+- [Docker](https://docs.docker.com/get-docker/) - Containerization
 - [Kubernetes](https://kubernetes.io/docs/tasks/tools/) - The container orchestration system used
-  - This controller was tested on a Kubernetes 1.27.4 cluster, but should work on any Kubernetes cluster that supports admission webhooks in version `v1`.
-- [Helm](https://helm.sh/docs/intro/install/) (v3) - The package manager for Kubernetes, needed to deploy the chart
+  - This controller was tested on a Kubernetes 1.27.4 cluster, but should work on any Kubernetes cluster that supports admission webhooks in version `v1`. For instance, you can use a Minikube cluster for local development.
+- [Helm](https://helm.sh/docs/intro/install/) (v3) - The package manager for Kubernetes, needed to deploy the chart.
 
-### Installing
+### 🏃 Running
 
-#### Installing via Helm
-
-See the [README for the Helm Chart](helm/kube-networkpolicy-denier/README.md) for more information.
-
-#### Locally
+#### 💻 Locally
 
 A step by step series of examples that tell you how to get a development environment running.
 
@@ -52,16 +41,18 @@ make ssl
 make run
 ```
 
-If you want to work in a containerized environment to prevent pollution of your local environment, you can use the provided Dockerfile to build a container image and run it locally:
+If you want to work in a containerized environment to prevent pollution of your machine, you can use the provided Dockerfile to build a container image and run it locally:
 
 ```bash
 make dev
 ```
 
-## Contributing
+From this running container on, you can proceed and build everything.
+
+## 🤝 Contributing
 
 Contributions are very welcome. I am happy to accept pull requests or issues. Please stay respectful. I don't plan on adding a code of conduct, but please be nice.
 
-## License
+## 📜 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. Basically, you can do whatever you want with this project, but you have to include the license and the license notice. And if you break something, it's not my fault.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. Basically, you can do whatever you want with this project, but you have to include the license and the license notice. And if you break something while using this piece of software or anything around it, I'm not responsible for that.
