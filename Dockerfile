@@ -17,4 +17,4 @@ RUN mkdir /app && CGO_ENABLED=0 GOOS=linux go build -o /app/app cmd/main.go
 FROM alpine:latest AS release
 WORKDIR /app
 COPY --from=build /app ./
-CMD ["./app"]
+CMD /app/app

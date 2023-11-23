@@ -1,12 +1,15 @@
 package main
 
 import (
+	"context"
 	"crypto/tls"
 	"encoding/json"
 	"flag"
 	"log"
 	"net/http"
 	"os"
+	"os/signal"
+	"syscall"
 
 	admissionv1 "k8s.io/api/admission/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -82,6 +85,20 @@ func validateHandler(w http.ResponseWriter, r *http.Request) {
 // It initializes the server with the provided certificate and key files,
 // sets up the request handlers, and starts the server.
 func main() {
+	var server *http.Server
+
+	idleConnectionsClosed := make(chan struct{})
+	go func() {
+		sig := make(chan os.Signal, 1)
+		signal.Notify(sig, syscall.SIGTERM)
+		<-sig
+		logger.Println("Received sigterm. Stopping server...")
+		if err := server.Shutdown(context.Background()); err != nil {
+			log.Fatalf("HTTP Server Shutdown Error: %v", err)
+		}
+		close(idleConnectionsClosed)
+	}()
+
 	certFile := flag.String("cert", "server.crt", "Server certificate file location")
 	keyFile := flag.String("key", "server.key", "Server key file location")
 	flag.Parse()
@@ -90,7 +107,7 @@ func main() {
 	mux.HandleFunc("/health", healthHandler)
 	mux.HandleFunc("/validate", validateHandler)
 
-	server := &http.Server{
+	server = &http.Server{
 		Addr:    ":8443",
 		Handler: mux,
 		TLSConfig: &tls.Config{
@@ -99,5 +116,11 @@ func main() {
 	}
 
 	logger.Println("Server started on port 8443")
-	log.Fatal(server.ListenAndServeTLS(*certFile, *keyFile))
+	if err := server.ListenAndServeTLS(*certFile, *keyFile); err != http.ErrServerClosed {
+		logger.Println("HTTP server ListenAndServeTLS:", err)
+	}
+
+	<-idleConnectionsClosed
+
+	logger.Println("Server stopped. Shutting down...")
 }
