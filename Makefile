@@ -18,6 +18,10 @@ test:
 > go test -v ./...
 > helm lint helm/kube-networkpolicy-denier
 
+### Run performance benchmarks
+bench:
+> go test ./... -bench . -count=5 -benchmem | grep -v INFO
+
 ### Build the development stage container
 dev:
 > docker build --no-cache -t $(DEV_IMAGE_NAME):dev --target dev .

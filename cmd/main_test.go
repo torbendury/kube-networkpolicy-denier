@@ -98,3 +98,50 @@ func TestValidateHandler(t *testing.T) {
 			admissionResponse.APIVersion, expectedAPIVersion)
 	}
 }
+
+func BenchmarkValidateHandler(b *testing.B) {
+	admissionReview := admissionv1.AdmissionReview{
+		Request: &admissionv1.AdmissionRequest{
+			Kind: metav1.GroupVersionKind{
+				Group:   "networking.k8s.io",
+				Version: "v1",
+				Kind:    "NetworkPolicy",
+			},
+			Operation: admissionv1.Create,
+			Object: runtime.RawExtension{
+				Raw: []byte(`{"apiVersion":"networking.k8s.io/v1","kind":"NetworkPolicy","metadata":{"name":"test-policy"},"spec":{"podSelector":{"matchLabels":{"app":"test"}},"ingress":[{"from":[{"namespaceSelector":{"matchLabels":{"name":"test-ns"}}}]}]}}`),
+			},
+		},
+	}
+
+	admissionReviewBytes, err := json.Marshal(admissionReview)
+	if err != nil {
+		b.Fatal(err)
+	}
+
+	req, err := http.NewRequest("POST", "/validate", bytes.NewBuffer(admissionReviewBytes))
+	if err != nil {
+		b.Fatal(err)
+	}
+
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(validateHandler)
+
+	for i := 0; i < b.N; i++ {
+		handler.ServeHTTP(rr, req)
+	}
+}
+
+func BenchmarkHealthHandler(b *testing.B) {
+	req, err := http.NewRequest("GET", "/health", nil)
+	if err != nil {
+		b.Fatal(err)
+	}
+
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(healthHandler)
+
+	for i := 0; i < b.N; i++ {
+		handler.ServeHTTP(rr, req)
+	}
+}
