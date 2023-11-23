@@ -6,12 +6,13 @@ on:
       - main
     paths-ignore:
       - "**/helm/kube-networkpolicy-denier/Chart.yaml"
-    paths:
-      - "**/cmd"
-      - "**/helm"
-      - "**Dockerfile"
-      - "**go.mod"
-      - "**go.sum"
+    # Move to positive matches later
+    #paths:
+    #  - "**/cmd"
+    #  - "**/helm"
+    #  - "**Dockerfile"
+    #  - "**go.mod"
+    #  - "**go.sum"
 
 jobs:
   test-build-publish:
