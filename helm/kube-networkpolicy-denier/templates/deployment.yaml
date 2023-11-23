@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "kube-networkpolicy-denier.fullname" . }}
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "kube-networkpolicy-denier.labels" . | nindent 4 }}
 spec:
