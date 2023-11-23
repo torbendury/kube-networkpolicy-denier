@@ -6,6 +6,16 @@ A very basic **admission controller** for Kubernetes that denies all network pol
 
 See the [README for the Helm Chart](helm/kube-networkpolicy-denier/README.md) for more information.
 
+## 🏎️ Resource Overhead
+
+This controller is very lightweight and does not consume a lot of resources. To give you a few key values, here are some numbers:
+
+- **CPU(cores)**: *5m (0.005)*
+- **Memory(bytes)**: *5-10Mi (0.005-0.01)*
+- **Container Image Size**: *about 25MB* (to be improved, currently uses a full alpine image)
+- **Handler benchmark**: *about 2500ns/op*
+- **Load Test**: *1000 req/s* delivered by a single Pod with an average response time of 1.83ms (min 149µs, max 700ms, p95 3.58ms)
+
 ### 🧑‍💻 Local Deployment
 
 If you want to deploy `kube-networkpolicy-denier` locally, you can use the provided Makefile to spin up a Minikube cluster, build the container image yourself and deploy the controller to your cluster:

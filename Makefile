@@ -18,6 +18,10 @@ test:
 > go test -v ./...
 > helm lint helm/kube-networkpolicy-denier
 
+### Run performance benchmarks
+bench:
+> go test ./... -bench . -count=5 -benchmem | grep -v INFO
+
 ### Build the development stage container
 dev:
 > docker build --no-cache -t $(DEV_IMAGE_NAME):dev --target dev .
@@ -37,7 +41,7 @@ kube:
 
 ### Install the Helm Chart
 helm:
-> helm install kube-networkpolicy-denier kube-networkpolicy-denier/kube-networkpolicy-denier --set image.tag=latest --version 0.0.3 --namespace kube-networkpolicy-denier --create-namespace
+> helm install kube-networkpolicy-denier kube-networkpolicy-denier/kube-networkpolicy-denier --set image.tag=latest --version 0.0.4 --namespace kube-networkpolicy-denier --create-namespace
 
 ### Create a complete local environment
 local: build kube helm
