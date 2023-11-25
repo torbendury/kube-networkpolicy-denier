@@ -1,5 +1,5 @@
 .RECIPEPREFIX = >
-.PHONY: ssl run test dev build kube helm local
+.PHONY: ssl run test dev build kube helm local stress
 
 ### Variables
 DEV_IMAGE_NAME := kube-networkpolicy-denier
@@ -42,6 +42,18 @@ kube:
 ### Install the Helm Chart
 helm:
 > helm install kube-networkpolicy-denier kube-networkpolicy-denier/kube-networkpolicy-denier --set image.tag=latest --version 0.0.4 --namespace kube-networkpolicy-denier --create-namespace
+
+### Run a series of stress tests
+stress:
+> k6 run hack/k6/smoke.js
+> sleep 10
+> k6 run hack/k6/soak.js
+> sleep 10
+> k6 run hack/k6/stress.js
+> sleep 10
+> k6 run hack/k6/spike.js
+> sleep 10
+> k6 run hack/k6/breakpoint.js
 
 ### Create a complete local environment
 local: build kube helm
