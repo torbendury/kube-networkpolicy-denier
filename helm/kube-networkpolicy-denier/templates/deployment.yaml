@@ -52,11 +52,19 @@ spec:
               path: /health
               port: https
               scheme: HTTPS
+            initialDelaySeconds: 2
+            periodSeconds: 5
+            failureThreshold: 2
+            successThreshold: 1
           readinessProbe:
             httpGet:
               path: /health
               port: https
               scheme: HTTPS
+            initialDelaySeconds: 2
+            periodSeconds: 5
+            failureThreshold: 3
+            successThreshold: 1
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
