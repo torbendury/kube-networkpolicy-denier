@@ -66,3 +66,25 @@ Contributions are very welcome. I am happy to accept pull requests or issues. Pl
 ## 📜 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. Basically, you can do whatever you want with this project, but you have to include the license and the license notice. And if you break something while using this piece of software or anything around it, I'm not responsible for that.
+
+## 🫴 Versioning
+
+This project uses a mixed approach for versioning.
+
+### 📦 Helm Chart
+
+The version of the **Helm Chart** uses [Semantic Versioning](https://semver.org). Although the package has not yet celebrated a `1.0.0` release, it can be considered stable.
+
+### 🐳 Docker Image
+
+The version of the **controller Docker image** uses the **short git commit hash** of the commit that was used to build the respective image. A newer build of the image will always have a newer commit hash.
+
+### Mixed Versioning
+
+A newer build is not guaranteed to make it into a new release of the Helm Chart. This is mostly due to the fact that not every change to the controller is relevant for a release of the Helm Chart or not releasable at all. Anyway, you are free to use any version of the controller image with any version of the Helm Chart. Although, it is recommended to use the controller image version which is referenced in the `appVersion` field of the Helm Chart. A image version that has not been referenced in a Helm Chart version is not guaranteed to work as expected.
+
+### 🛳️ Kubernetes Versions
+
+I tested this Helm Chart in multiple Kubernetes *v1.27* clusters. According to the [Kubernetes API Version Guide](https://kubernetes.io/docs/reference/using-api/deprecation-guide/), the API that was introduced the last was `autoscaling/v2` since Kubernetes *v1.23*. This means that this Helm Chart should work with Kubernetes *v1.23* and above and can be recommended.
+
+If you want to use this Helm Chart with a Kubernetes version below *v1.23*, you will need to disable the `HorizontalPodAutoscaler` by setting the `autoscaling.enabled` field in the `values.yaml` file to `false`. If you do so, you *should* be able to run the Helm Chart with any Kubernetes version above (and including) *v1.16*. However, this is not recommended because I did **NOT** test with Kubernetes *v1.16* and I can't guarantee that everything will work as expected in the long run. (*v1.16* was EOL in 2020, please upgrade your cluster if you are still using it.)
