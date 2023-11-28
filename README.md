@@ -1,3 +1,9 @@
+[![GitHub go.mod Go version of a Go module](https://img.shields.io/github/go-mod/go-version/torbendury/kube-networkpolicy-denier.svg)](https://github.com/torbendury/kube-networkpolicy-denier)
+[![Go Report Card](https://goreportcard.com/badge/github.com/torbendury/kube-networkpolicy-denier)](https://goreportcard.com/report/github.com/torbendury/kube-networkpolicy-denier)
+![GitHub license](https://img.shields.io/github/license/torbendury/kube-networkpolicy-denier.svg)
+![GitHub release](https://img.shields.io/github/release/torbendury/kube-networkpolicy-denier.svg)
+[![GitHub latest commit](https://badgen.net/github/last-commit/torbendury/kube-networkpolicy-denier)](https://GitHub.com/torbendury/kube-networkpolicy-denier/commit/)
+
 # 👮 kube-networkpolicy-denier
 
 A very basic **admission controller** for Kubernetes that denies all network policies. It works as a validation webhook and can be used to prevent users from creating network policies. This is especially useful in multi-tenant clusters where you want to prevent users from creating network policies that might affect other users, or (like in my case) in environments where you exclusively rely on Istio AuthorizationPolicies.
