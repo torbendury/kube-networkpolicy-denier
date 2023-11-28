@@ -45,3 +45,4 @@ You can configure the following settings:
 | `autoscaling.maxReplicas`                       | Maximum number of replicas                                                                                                        | `5`                                    |
 | `autoscaling.targetCPUUtilizationPercentage`    | Target CPU utilization percentage                                                                                                 | `80`                                   |
 | `autoscaling.targetMemoryUtilizationPercentage` | Target memory utilization percentage                                                                                              | `80`                                   |
+| `controller.response` | Response message to return when a NetworkPolicy is denied | `"This webhook denies all NetworkPolicies"` |

@@ -18,6 +18,7 @@ import (
 
 var infoLogger *log.Logger
 var errorLogger *log.Logger
+var respMsg *string
 
 // init initializes the infoLogger variable with a new instance of log.Logger.
 // It sets the output to os.Stdout and prefixes log messages with "[INFO] ".
@@ -80,7 +81,7 @@ func validateHandler(w http.ResponseWriter, r *http.Request) {
 		admissionResponse := admissionv1.AdmissionResponse{
 			Allowed: false,
 			Result: &metav1.Status{
-				Message: "This webhook denies all NetworkPolicies",
+				Message: *respMsg,
 			},
 			UID: uid,
 		}
@@ -137,6 +138,7 @@ func main() {
 
 	certFile := flag.String("cert", "server.crt", "Server certificate file location")
 	keyFile := flag.String("key", "server.key", "Server key file location")
+	respMsg = flag.String("response", "This webhook denies all NetworkPolicies", "The response message to send back to the client")
 	flag.Parse()
 
 	mux := http.NewServeMux()

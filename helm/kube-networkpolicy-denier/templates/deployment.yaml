@@ -43,6 +43,7 @@ spec:
           args:
             - --cert=/certs/tls.crt
             - --key=/certs/tls.key
+            - --response={{ .Values.controller.response }}
           ports:
             - name: https
               containerPort: {{ .Values.service.port }}

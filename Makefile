@@ -41,7 +41,7 @@ kube:
 
 ### Install the Helm Chart
 helm:
-> helm install kube-networkpolicy-denier kube-networkpolicy-denier/kube-networkpolicy-denier --set image.tag=latest --version 0.0.4 --namespace kube-networkpolicy-denier --create-namespace
+> helm upgrade --install kube-networkpolicy-denier ./helm/kube-networkpolicy-denier --set image.tag=latest --namespace kube-networkpolicy-denier --create-namespace
 
 ### Run a series of stress tests
 stress:
