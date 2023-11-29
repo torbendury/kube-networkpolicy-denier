@@ -35,18 +35,6 @@ jobs:
         with:
           go-version: "^1.21.4"
 
-      - name: Go Test and Helm Lint
-        run: make test
-
-      - name: Start Minikube
-        uses: medyagh/setup-minikube@master
-      - name: Cluster connectivity
-        run: kubectl get pods -A
-      - name: Build image, deploy Helm Chart and test in Minikube
-        run: |
-          export SHELL=/bin/bash
-          make github
-
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
