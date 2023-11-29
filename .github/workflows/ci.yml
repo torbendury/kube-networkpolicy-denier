@@ -23,6 +23,7 @@ jobs:
         uses: actions/checkout@v2
 
       - id: pre-step
+        name: Docker Version Tag
         shell: bash
         run: echo "release_tag=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
@@ -31,14 +32,14 @@ jobs:
         with:
           go-version: "^1.21.4"
 
-      - name: Run tests
+      - name: Go Test and Helm Lint
         run: make test
 
-      - name: Start minikube
+      - name: Start Mikube
         uses: medyagh/setup-minikube@master
-      - name: Try to reach cluster
+      - name: Cluster connectivity
         run: kubectl get pods -A
-      - name: Build image, deploy and test in minikube
+      - name: Build image, deploy Helm Chart and test in Minikube
         run: |
           export SHELL=/bin/bash
           make github
@@ -79,7 +80,7 @@ jobs:
         with:
           version: v3.4.0
 
-      - name: Run chart-releaser
+      - name: Release Helm Chart
         uses: helm/chart-releaser-action@v1.6.0
         with:
           charts_dir: helm
