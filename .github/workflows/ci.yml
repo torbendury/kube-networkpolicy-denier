@@ -88,9 +88,9 @@ jobs:
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
-      - name: Merge main into gh-pages
+      - name: Rebase gh-pages to include changes from main
         run: |
           git fetch origin main
           git checkout gh-pages
-          git merge --allow-unrelated-histories origin/main
+          git rebase origin/main
           git push origin gh-pages
