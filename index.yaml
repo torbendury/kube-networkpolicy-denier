@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   kube-networkpolicy-denier:
   - apiVersion: v2
+    appVersion: 64eca23
+    created: "2023-11-29T18:58:24.347683996Z"
+    description: An admission controller that denies all NetworkPolicy objects.
+    digest: 377c651e79a669b1fcef8c5fe64baad880794e7021f5b6def96a3f1262eed541
+    name: kube-networkpolicy-denier
+    type: application
+    urls:
+    - https://github.com/torbendury/kube-networkpolicy-denier/releases/download/kube-networkpolicy-denier-0.1.0/kube-networkpolicy-denier-0.1.0.tgz
+    version: 0.1.0
+  - apiVersion: v2
     appVersion: 98e7ba2
     created: "2023-11-25T00:57:51.047453424Z"
     description: An admission controller that denies all NetworkPolicy objects.
@@ -51,4 +61,4 @@ entries:
     urls:
     - https://github.com/torbendury/kube-networkpolicy-denier/releases/download/kube-networkpolicy-denier-0.0.1/kube-networkpolicy-denier-0.0.1.tgz
     version: 0.0.1
-generated: "2023-11-25T00:57:51.047502936Z"
+generated: "2023-11-29T18:58:24.347704023Z"
