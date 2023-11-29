@@ -92,5 +92,5 @@ jobs:
         run: |
           git fetch origin main
           git checkout gh-pages
-          git rebase origin/main
+          git rebase -s ort origin/main
           git push origin gh-pages
