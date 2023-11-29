@@ -88,11 +88,9 @@ jobs:
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
-      - name: Rebase gh-pages to include changes from main
+      - name: Keep gh-pages in-sync with main
         run: |
-          git config pull.rebase false
-          git pull origin main
-          git pull origin gh-pages
+          git fetch origin main:main
           git checkout gh-pages
-          git merge -s ort main
+          git rebase main
           git push origin gh-pages
