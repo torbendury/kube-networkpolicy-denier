@@ -32,5 +32,6 @@ jobs:
         id: test
         run: |
           export SHELL=/bin/bash
-          TEST_RESULT=$(make github)
+          make github
+          TEST_RESULT=$?
           echo "::set-output name=result::$TEST_RESULT"
