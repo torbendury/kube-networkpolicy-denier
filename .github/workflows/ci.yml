@@ -35,7 +35,7 @@ jobs:
       - name: Go Test and Helm Lint
         run: make test
 
-      - name: Start Mikube
+      - name: Start Minikube
         uses: medyagh/setup-minikube@master
       - name: Cluster connectivity
         run: kubectl get pods -A
