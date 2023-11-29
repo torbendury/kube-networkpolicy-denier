@@ -2,10 +2,16 @@ name: CI Pipeline
 
 on:
   workflow_call:
+    outputs:
+      test-result:
+        description: "Test result"
+        value: ${{ jobs.e2e_test.outputs.test-result }}
 
 jobs:
   e2e_test:
     runs-on: ubuntu-latest
+    outputs:
+      test-result: ${{ steps.test.outputs.result }}
 
     steps:
       - name: Checkout code
@@ -18,9 +24,13 @@ jobs:
 
       - name: Start Minikube
         uses: medyagh/setup-minikube@master
+
       - name: Cluster connectivity
         run: kubectl get pods -A
+
       - name: Build image, deploy Helm Chart and test in Minikube
+        id: test
         run: |
           export SHELL=/bin/bash
-          make github
+          TEST_RESULT=$(make github)
+          echo "::set-output name=result::$TEST_RESULT"
