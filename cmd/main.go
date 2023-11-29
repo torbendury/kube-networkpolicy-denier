@@ -24,6 +24,8 @@ var respMsg *string
 // It sets the output to os.Stdout and prefixes log messages with "[INFO] ".
 // The infoLogger is configured to include the date, time, and short file name in log messages.
 func init() {
+	defaultResp := "This webhook denies all NetworkPolicies"
+	respMsg = &defaultResp
 	infoLogger = log.New(os.Stdout, "[INFO] ", log.Ldate|log.Ltime|log.Lshortfile)
 	errorLogger = log.New(os.Stderr, "[ERROR] ", log.Ldate|log.Ltime|log.Lshortfile)
 }
