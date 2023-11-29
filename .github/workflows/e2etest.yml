@@ -2,9 +2,6 @@ name: CI Pipeline
 
 on:
   workflow_call:
-    secrets:
-      token:
-        required: true
 
 jobs:
   e2e_test:
