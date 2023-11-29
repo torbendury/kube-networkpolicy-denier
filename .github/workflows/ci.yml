@@ -87,13 +87,3 @@ jobs:
           skip_existing: true
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-
-      - name: Keep gh-pages in-sync with main
-        run: |
-          git fetch origin main:temp_main
-          git checkout gh-pages
-          git rebase temp_main || git rebase --abort
-          git checkout --theirs .
-          git add .
-          git rebase --continue
-          git push origin gh-pages
