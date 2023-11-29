@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: E2E Test
 
 on:
   workflow_call:
