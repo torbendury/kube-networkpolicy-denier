@@ -10,25 +10,46 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	admissionv1 "k8s.io/api/admission/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-var logger *log.Logger
+var infoLogger *log.Logger
+var errorLogger *log.Logger
+var respMsg *string
 
-// init initializes the logger variable with a new instance of log.Logger.
+// init initializes the infoLogger variable with a new instance of log.Logger.
 // It sets the output to os.Stdout and prefixes log messages with "[INFO] ".
-// The logger is configured to include the date, time, and short file name in log messages.
+// The infoLogger is configured to include the date, time, and short file name in log messages.
 func init() {
-	logger = log.New(os.Stdout, "[INFO] ", log.Ldate|log.Ltime|log.Lshortfile)
+	defaultResp := "This webhook denies all NetworkPolicies"
+	respMsg = &defaultResp
+	infoLogger = log.New(os.Stdout, "[INFO] ", log.Ldate|log.Ltime|log.Lshortfile)
+	errorLogger = log.New(os.Stderr, "[ERROR] ", log.Ldate|log.Ltime|log.Lshortfile)
 }
 
 // healthHandler handles the health check request.
 // It returns a 200 OK response.
 func healthHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("OK"))
+	ctx, cancel := context.WithTimeout(r.Context(), 1*time.Second)
+	defer cancel()
+
+	done := make(chan error, 1)
+	go func() {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("OK"))
+		done <- nil
+	}()
+
+	select {
+	case <-done:
+		return
+	case <-ctx.Done():
+		errorLogger.Println("health check timed out")
+		http.Error(w, "request timed out", http.StatusRequestTimeout)
+	}
 }
 
 // validateHandler is a function that handles the validation of admission review requests.
@@ -38,45 +59,64 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 // - r: *http.Request - the HTTP request containing the admission review request.
 // Returns: None
 func validateHandler(w http.ResponseWriter, r *http.Request) {
-	// Read the admission review request
+	ctx, cancel := context.WithTimeout(r.Context(), 2*time.Second)
+	defer cancel()
+	done := make(chan error, 1)
+
 	admissionReview := admissionv1.AdmissionReview{}
 	err := json.NewDecoder(r.Body).Decode(&admissionReview)
 	if err != nil {
-		logger.Println("Failed to decode admission review request:", err)
+		errorLogger.Println("Failed to decode admission review request:", err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	logger.Println(r.URL.Path, " name: ", admissionReview.Request.Name, " namespace: ", admissionReview.Request.Namespace, " operation: ", admissionReview.Request.Operation, " uid: ", admissionReview.Request.UID)
+	go func() {
+		// Read the admission review request
 
-	// Get the UID from the AdmissionRequest
-	uid := admissionReview.Request.UID
+		infoLogger.Println(r.URL.Path, " name: ", admissionReview.Request.Name, " namespace: ", admissionReview.Request.Namespace, " operation: ", admissionReview.Request.Operation, " uid: ", admissionReview.Request.UID)
 
-	// Create the admission review response
-	admissionResponse := admissionv1.AdmissionResponse{
-		Allowed: false,
-		Result: &metav1.Status{
-			Message: "This webhook denies all NetworkPolicies",
-		},
-		UID: uid,
-	}
+		// Get the UID from the AdmissionRequest
+		uid := admissionReview.Request.UID
 
-	// Create the admission review response review
-	admissionReviewResponse := admissionv1.AdmissionReview{
-		TypeMeta: metav1.TypeMeta{
-			APIVersion: "admission.k8s.io/v1",
-			Kind:       "AdmissionReview",
-		},
-		Response: &admissionResponse,
-	}
+		// Create the admission review response
+		admissionResponse := admissionv1.AdmissionResponse{
+			Allowed: false,
+			Result: &metav1.Status{
+				Message: *respMsg,
+			},
+			UID: uid,
+		}
 
-	// Write the admission review response
-	w.Header().Set("Content-Type", "application/json")
-	err = json.NewEncoder(w).Encode(&admissionReviewResponse)
-	if err != nil {
-		logger.Println("Failed to encode admission review response:", err)
-		w.WriteHeader(http.StatusInternalServerError)
+		// Create the admission review response review
+		admissionReviewResponse := admissionv1.AdmissionReview{
+			TypeMeta: metav1.TypeMeta{
+				APIVersion: "admission.k8s.io/v1",
+				Kind:       "AdmissionReview",
+			},
+			Response: &admissionResponse,
+		}
+
+		// Write the admission review response
+		w.Header().Set("Content-Type", "application/json")
+		err = json.NewEncoder(w).Encode(&admissionReviewResponse)
+		if err != nil {
+			errorLogger.Println("Failed to encode admission review response:", err)
+			w.WriteHeader(http.StatusInternalServerError)
+			done <- err
+		}
+
+		done <- nil
+	}()
+
+	select {
+	case err := <-done:
+		if err != nil {
+			errorLogger.Println("Failed to process admission review request:", err)
+		}
 		return
+	case <-ctx.Done():
+		errorLogger.Println("validation request timed out")
 	}
 }
 
@@ -91,20 +131,22 @@ func main() {
 		sig := make(chan os.Signal, 1)
 		signal.Notify(sig, syscall.SIGTERM)
 		<-sig
-		logger.Println("Received sigterm. Stopping server...")
+		infoLogger.Println("Received sigterm. Stopping server...")
 		if err := server.Shutdown(context.Background()); err != nil {
-			log.Fatalf("HTTP Server Shutdown Error: %v", err)
+			errorLogger.Printf("HTTP Server Shutdown Error: %v\n", err)
 		}
 		close(idleConnectionsClosed)
 	}()
 
 	certFile := flag.String("cert", "server.crt", "Server certificate file location")
 	keyFile := flag.String("key", "server.key", "Server key file location")
+	respMsg = flag.String("response", "This webhook denies all NetworkPolicies", "The response message to send back to the client")
 	flag.Parse()
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/health", healthHandler)
-	mux.HandleFunc("/validate", validateHandler)
+
+	mux.Handle("/health", http.TimeoutHandler(http.HandlerFunc(healthHandler), 4*time.Second, "request timed out"))
+	mux.Handle("/validate", http.TimeoutHandler(http.HandlerFunc(validateHandler), 4*time.Second, "request timed out"))
 
 	server = &http.Server{
 		Addr:    ":8443",
@@ -112,14 +154,18 @@ func main() {
 		TLSConfig: &tls.Config{
 			MinVersion: tls.VersionTLS12,
 		},
+		IdleTimeout:       5 * time.Second,
+		ReadHeaderTimeout: 5 * time.Second,
+		WriteTimeout:      10 * time.Second,
+		ReadTimeout:       10 * time.Second,
 	}
 
-	logger.Println("Server started on port 8443")
+	infoLogger.Println("Server started on port 8443")
 	if err := server.ListenAndServeTLS(*certFile, *keyFile); err != http.ErrServerClosed {
-		logger.Println("HTTP server ListenAndServeTLS:", err)
+		errorLogger.Println("HTTP server ListenAndServeTLS:", err)
 	}
 
 	<-idleConnectionsClosed
 
-	logger.Println("Server stopped. Shutting down...")
+	infoLogger.Println("Server stopped. Shutting down...")
 }

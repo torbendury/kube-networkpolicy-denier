@@ -119,15 +119,14 @@ func BenchmarkValidateHandler(b *testing.B) {
 		b.Fatal(err)
 	}
 
-	req, err := http.NewRequest("POST", "/validate", bytes.NewBuffer(admissionReviewBytes))
-	if err != nil {
-		b.Fatal(err)
-	}
-
-	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(validateHandler)
-
 	for i := 0; i < b.N; i++ {
+		req, err := http.NewRequest("POST", "/validate", bytes.NewBuffer(admissionReviewBytes))
+		if err != nil {
+			b.Fatal(err)
+		}
+
+		rr := httptest.NewRecorder()
+		handler := http.HandlerFunc(validateHandler)
 		handler.ServeHTTP(rr, req)
 	}
 }
