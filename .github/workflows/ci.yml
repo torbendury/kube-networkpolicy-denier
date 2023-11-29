@@ -34,6 +34,15 @@ jobs:
       - name: Run tests
         run: make test
 
+      - name: Start minikube
+        uses: medyagh/setup-minikube@master
+      - name: Try to reach cluster
+        run: kubectl get pods -A
+      - name: Build image, deploy and test in minikube
+        run: |
+          export SHELL=/bin/bash
+          make github
+
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
@@ -77,3 +86,9 @@ jobs:
         # packages_with_index: true
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Merge main into gh-pages
+        run: |
+          git checkout gh-pages
+          git merge main
+          git push origin gh-pages

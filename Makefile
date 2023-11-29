@@ -39,9 +39,18 @@ kube:
 > minikube image load $(RELEASE_IMAGE_NAME):latest
 > sleep 10
 
+miniload:
+> minikube image load $(RELEASE_IMAGE_NAME):latest
+
 ### Install the Helm Chart
 helm:
 > helm upgrade --install kube-networkpolicy-denier ./helm/kube-networkpolicy-denier --set image.tag=latest --namespace kube-networkpolicy-denier --create-namespace
+
+github: build miniload helm
+> sleep 5
+> RESULT=$$(kubectl diff -f hack/netpol.yml)
+> if [ "$$RESULT" == 2 ]; then echo "Netpol denied correctly"; exit 0; else echo "Netpol not denied correctly"; exit 1; fi
+
 
 ### Run a series of stress tests
 stress:
