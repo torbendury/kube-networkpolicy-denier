@@ -92,5 +92,8 @@ jobs:
         run: |
           git fetch origin main:temp_main
           git checkout gh-pages
-          git rebase temp_main
+          git rebase temp_main || git rebase --abort
+          git checkout --theirs .
+          git add .
+          git rebase --continue
           git push origin gh-pages
