@@ -48,9 +48,12 @@ helm:
 
 github: build miniload helm
 > sleep 5
-> RESULT=$$(kubectl diff -f hack/netpol.yml)
-> if [ "$$RESULT" == 2 ]; then echo "Netpol denied correctly"; exit 0; else echo "Netpol not denied correctly"; exit 1; fi
-
+> kubectl diff -f hack/netpol.yml; \  # <<== here's the missing semicolon
+    if [ $$? -ne 2 ]; \
+    then \
+        echo "NetworkPolicy was not denied correctly"; \
+        false; \
+    fi
 
 ### Run a series of stress tests
 stress:
