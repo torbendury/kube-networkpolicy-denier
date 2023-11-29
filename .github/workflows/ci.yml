@@ -90,7 +90,7 @@ jobs:
 
       - name: Keep gh-pages in-sync with main
         run: |
-          git fetch origin main:main
+          git fetch origin main:temp_main
           git checkout gh-pages
-          git rebase main
+          git rebase temp_main
           git push origin gh-pages
