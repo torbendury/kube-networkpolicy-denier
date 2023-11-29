@@ -92,5 +92,5 @@ jobs:
         run: |
           git fetch origin main
           git checkout gh-pages
-          git merge origin/main
+          git merge --allow-unrelated-histories origin/main
           git push origin gh-pages
