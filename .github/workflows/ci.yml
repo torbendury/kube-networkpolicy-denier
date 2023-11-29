@@ -90,9 +90,8 @@ jobs:
 
       - name: Rebase gh-pages to include changes from main
         run: |
-          git checkout main
-          git pull
+          git pull origin main --allow-unrelated-histories
+          git pull origin gh-pages --allow-unrelated-histories
           git checkout gh-pages
-          git pull
           git merge -s ort main
           git push origin gh-pages
