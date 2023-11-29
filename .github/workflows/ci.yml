@@ -90,7 +90,9 @@ jobs:
 
       - name: Rebase gh-pages to include changes from main
         run: |
-          git fetch origin main
+          git checkout main
+          git pull
           git checkout gh-pages
-          git rebase -s ort origin/main
+          git pull
+          git rebase -s ort main
           git push origin gh-pages
