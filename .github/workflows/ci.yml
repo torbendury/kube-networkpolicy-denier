@@ -25,12 +25,6 @@ jobs:
     outputs:
       overall-result: ${{ steps.check.outputs.result }}
     steps:
-      - name: Check test results
-        uses: ./.github/workflows/report.yml
-        with:
-          unittest-result: ${{ needs.unittest.outputs.test-result }}
-          e2etest-result: ${{ needs.e2etest.outputs.test-result }}
-
       - name: Set overall result
         id: check
         run: |
