@@ -90,8 +90,9 @@ jobs:
 
       - name: Rebase gh-pages to include changes from main
         run: |
+          git config pull.rebase false
           git pull origin main
-          git pull origin gh-pages --ff-only
+          git pull origin gh-pages
           git checkout gh-pages
           git merge -s ort main
           git push origin gh-pages
