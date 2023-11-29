@@ -1,89 +1,19 @@
-name: CI/CD Pipeline
+name: CI Pipeline
 
 on:
   push:
     branches:
-      - main
-    paths-ignore:
-      - "**/helm/kube-networkpolicy-denier/Chart.yaml"
-    # Move to positive matches later
-    #paths:
-    #  - "**/cmd"
-    #  - "**/helm"
-    #  - "**Dockerfile"
-    #  - "**go.mod"
-    #  - "**go.sum"
+      - "feature/*"
+  workflow_call:
+    secrets:
+      token:
+        required: true
 
 jobs:
-  test-build-publish:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - id: pre-step
-        name: Docker Version Tag
-        shell: bash
-        run: echo "release_tag=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-
-      - name: Setup Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: "^1.21.4"
-
-      - name: Go Test and Helm Lint
-        run: make test
-
-      - name: Start Minikube
-        uses: medyagh/setup-minikube@master
-      - name: Cluster connectivity
-        run: kubectl get pods -A
-      - name: Build image, deploy Helm Chart and test in Minikube
-        run: |
-          export SHELL=/bin/bash
-          make github
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          target: release
-          tags: torbendury/kube-networkpolicy-denier:${{ steps.pre-step.outputs.release_tag }},torbendury/kube-networkpolicy-denier:latest
-
-      - name: Update Helm chart appVersion
-        run: |
-          yq e ".appVersion = \"${{ steps.pre-step.outputs.release_tag }}\"" -i ./helm/kube-networkpolicy-denier/Chart.yaml
-        shell: bash
-
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Bump appVersion to ${{ steps.pre-step.outputs.release_tag }}
-          commit_user_name: GitHub Actions
-          commit_user_email: github-actions@github.com
-          commit_author: GitHub Actions <github-actions@github.com>
-
-      - name: Configure Git
-        run: |
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-
-      - name: Install Helm
-        uses: azure/setup-helm@v1
-        with:
-          version: v3.4.0
-
-      - name: Release Helm Chart
-        uses: helm/chart-releaser-action@v1.6.0
-        with:
-          charts_dir: helm
-          skip_existing: true
-        env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+  # call e2etest and unittest workflows in local repo in parallel
+  unittest:
+    uses: ./.github/workflows/unittest.yml
+    secrets: inherit
+  e2etest:
+    uses: ./.github/workflows/e2etest.yml
+    secrets: inherit
