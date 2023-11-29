@@ -94,5 +94,5 @@ jobs:
           git pull
           git checkout gh-pages
           git pull
-          git rebase -s ort main
+          git merge -s ort main
           git push origin gh-pages
