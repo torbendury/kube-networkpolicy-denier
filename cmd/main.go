@@ -72,23 +72,18 @@ func validateHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	go func() {
-		// Read the admission review request
-
 		infoLogger.Println(r.URL.Path, " name: ", admissionReview.Request.Name, " namespace: ", admissionReview.Request.Namespace, " operation: ", admissionReview.Request.Operation, " uid: ", admissionReview.Request.UID)
 
-		// Get the UID from the AdmissionRequest
-		uid := admissionReview.Request.UID
-
-		// Create the admission review response
+		// Create the admission response
 		admissionResponse := admissionv1.AdmissionResponse{
 			Allowed: false,
 			Result: &metav1.Status{
 				Message: *respMsg,
 			},
-			UID: uid,
+			UID: admissionReview.Request.UID,
 		}
 
-		// Create the admission review response review
+		// Create the admission review response
 		admissionReviewResponse := admissionv1.AdmissionReview{
 			TypeMeta: metav1.TypeMeta{
 				APIVersion: "admission.k8s.io/v1",
