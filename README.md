@@ -8,6 +8,8 @@
 
 A very basic **admission controller** for Kubernetes that denies all network policies. It works as a validation webhook and can be used to prevent users from creating network policies. This is especially useful in multi-tenant clusters where you want to prevent users from creating network policies that might affect other users, or (like in my case) in environments where you exclusively rely on Istio AuthorizationPolicies.
 
+See the full changelog [here](https://github.com/torbendury/kube-networkpolicy-denier/blob/main/CHANGELOG.md)
+
 ## 🚀 Installation / Deployment
 
 See the [README for the Helm Chart](helm/kube-networkpolicy-denier/README.md) for more information.
