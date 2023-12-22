@@ -48,3 +48,9 @@ repos:
       - id: go-lint
       - id: go-unit-tests
       - id: go-static-check # install https://staticcheck.io/docs/
+  - repo: local
+    hooks:
+      - id: changelog
+        language: system
+        name: Changelog
+        entry: /bin/bash -c 'docker run -u 1000:1000 --rm -v $(pwd):/workdir quay.io/git-chglog/git-chglog > CHANGELOG.md'
