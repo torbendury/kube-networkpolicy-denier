@@ -29,6 +29,7 @@
 
 ### Feat
 - shorten time interval for liveness and readiness probe ([#12](https://github.com/torbendury/kube-networkpolicy-denier/issues/12))
+- **docker:** minify image size ([#15](https://github.com/torbendury/kube-networkpolicy-denier/issues/15))
 
 
 <a name="kube-networkpolicy-denier-0.1.0"></a>

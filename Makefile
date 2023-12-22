@@ -30,7 +30,7 @@ dev:
 ### Build the release container
 # This is not used in the CI/CD pipeline!
 build:
-> docker build --no-cache -t $(RELEASE_IMAGE_NAME):latest --target minified .
+> docker build --no-cache -t $(RELEASE_IMAGE_NAME):latest --target release .
 
 ### Create local test cluster
 # This is not used in the CI/CD pipeline!

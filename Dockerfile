@@ -27,13 +27,7 @@ RUN go mod download && go mod verify
 RUN mkdir /app && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /app/app cmd/main.go
 
 # Release Stage
-FROM alpine:latest AS release
-WORKDIR /app
-COPY --from=build /app ./
-CMD /app/app
-
-# Minified Image
-FROM scratch AS minified
+FROM scratch AS release
 
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=build /etc/passwd /etc/passwd
