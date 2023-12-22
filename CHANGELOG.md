@@ -3,8 +3,11 @@
 
 ### Chore
 - typo
+- **core:** move admission UID retrieval ([#14](https://github.com/torbendury/kube-networkpolicy-denier/issues/14))
 
 ### Ci
+- introduce changelog generation with git-chglog It has been bugging me for some time now that releases of the Helm Chart are quite ambiguous. Future Helm Chart releases will include a link to the latest changelog. Users will now also be informed about unreleased features which will make it into the upcoming release. Additionally, if I don't want to blow up release changelogs in the future, I will need to squash commits more often.
+- introduce changelog generation with git-chglog It has been bugging me for some time now that releases of the Helm Chart are quite ambiguous. Future Helm Chart releases will include a link to the latest changelog. Users will now also be informed about unreleased features which will make it into the upcoming release. Additionally, if I don't want to blow up release changelogs in the future, I will need to squash commits more often.
 - rename separate pipelines
 - remove gh-pages sync
 - automatic resolve of conflicts
@@ -24,6 +27,9 @@
 - correct Make handling
 - correct diff exit code handling
 - integration/e2e test for helm chart Installing the Helm Chart and testing it against a Kubernetes cluster by applying a NetworkPolicy was a manual task until now. From now on, these steps will be done on every push to main automatically. Also, after a successful release, gh-pages branch will be automatically kept in-sync with main. Before, GitHub Actions denied triggering the pages CI to prevent recursion.
+
+### Feat
+- shorten time interval for liveness and readiness probe ([#12](https://github.com/torbendury/kube-networkpolicy-denier/issues/12))
 
 
 <a name="kube-networkpolicy-denier-0.1.0"></a>
