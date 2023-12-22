@@ -1,4 +1,4 @@
-ARG GOLANG_VERSION=1.21.4-alpine
+ARG GOLANG_VERSION=1.21.5-alpine
 
 # Dev Stage
 FROM golang:${GOLANG_VERSION} AS dev
@@ -7,14 +7,39 @@ CMD ["sh"]
 
 # Build Stage
 FROM golang:${GOLANG_VERSION} AS build
+
+ENV USER=appuser
+ENV UID=10001
+
+RUN adduser \
+    --disabled-password \
+    --gecos "" \
+    --home "/nonexistent" \
+    --shell "/sbin/nologin" \
+    --no-create-home \
+    --uid "${UID}" \
+    "${USER}"
+
 RUN apk update && apk add --no-cache git
 WORKDIR /src
 COPY . .
-RUN go mod download
-RUN mkdir /app && CGO_ENABLED=0 GOOS=linux go build -o /app/app cmd/main.go
+RUN go mod download && go mod verify
+RUN mkdir /app && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /app/app cmd/main.go
 
 # Release Stage
 FROM alpine:latest AS release
 WORKDIR /app
 COPY --from=build /app ./
 CMD /app/app
+
+# Minified Image
+FROM scratch AS minified
+
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=build /etc/passwd /etc/passwd
+COPY --from=build /etc/group /etc/group
+
+USER appuser:appuser
+
+COPY --from=build /app/app /go/bin/kube-networkpolicy-denier
+ENTRYPOINT ["/go/bin/kube-networkpolicy-denier"]
