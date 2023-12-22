@@ -2,13 +2,11 @@
 ## [Unreleased]
 
 ### Chore
-- CHANGELOG
 - typo
 - **core:** move admission UID retrieval ([#14](https://github.com/torbendury/kube-networkpolicy-denier/issues/14))
 
 ### Ci
-- introduce changelog generation with git-chglog It has been bugging me for some time now that releases of the Helm Chart are quite ambiguous. Future Helm Chart releases will include a link to the latest changelog. Users will now also be informed about unreleased features which will make it into the upcoming release. Additionally, if I don't want to blow up release changelogs in the future, I will need to squash commits more often.
-- introduce changelog generation with git-chglog It has been bugging me for some time now that releases of the Helm Chart are quite ambiguous. Future Helm Chart releases will include a link to the latest changelog. Users will now also be informed about unreleased features which will make it into the upcoming release. Additionally, if I don't want to blow up release changelogs in the future, I will need to squash commits more often.
+- introduce changelog generation with git-chglog ([#13](https://github.com/torbendury/kube-networkpolicy-denier/issues/13))
 - rename separate pipelines
 - remove gh-pages sync
 - automatic resolve of conflicts
