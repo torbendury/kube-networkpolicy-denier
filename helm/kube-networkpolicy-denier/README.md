@@ -4,6 +4,8 @@ This chart installs a admission controller on a Kubernetes cluster using the Hel
 
 It effectively denies all NetworkPolicies from being created on the cluster.
 
+See changes [here](https://github.com/torbendury/kube-networkpolicy-denier/blob/main/CHANGELOG.md)
+
 ## 📜 Source Code
 
 You can find the source code of this chart on [GitHub](https://github.com/torbendury/kube-networkpolicy-denier).

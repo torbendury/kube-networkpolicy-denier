@@ -2,6 +2,7 @@
 ## [Unreleased]
 
 ### Chore
+- CHANGELOG
 - typo
 - **core:** move admission UID retrieval ([#14](https://github.com/torbendury/kube-networkpolicy-denier/issues/14))
 
