@@ -20,7 +20,7 @@ This controller is very lightweight and does not consume a lot of resources. To 
 
 | CPU | Memory | Container Size | Load Test |
 | ---------- | ------------- | -------------------- | --------- |
-| 0.005 Cores | 5-10Mi | about 25MB | 1000 req/s delivered by single Pod: avg 1.83ms, min 149µs, max 700ms, p95 3.58ms |
+| 0.005 Cores | 5-10Mi | about 10MB | 1000 req/s delivered by single Pod: avg 1.83ms, min 149µs, max 700ms, p95 3.58ms |
 
 ### 🧑‍💻 Local Deployment
 
