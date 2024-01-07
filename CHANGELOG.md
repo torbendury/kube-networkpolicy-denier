@@ -6,18 +6,19 @@
 - **core:** move admission UID retrieval ([#14](https://github.com/torbendury/kube-networkpolicy-denier/issues/14))
 
 ### Ci
-- introduce changelog generation with git-chglog ([#13](https://github.com/torbendury/kube-networkpolicy-denier/issues/13))
-- rename separate pipelines
-- remove gh-pages sync
+- merge instead of rebase
 - automatic resolve of conflicts
+- integration/e2e test for helm chart Installing the Helm Chart and testing it against a Kubernetes cluster by applying a NetworkPolicy was a manual task until now. From now on, these steps will be done on every push to main automatically. Also, after a successful release, gh-pages branch will be automatically kept in-sync with main. Before, GitHub Actions denied triggering the pages CI to prevent recursion.
+- rebase strategy
+- explicit branch handling
 - checkout separate main
 - sync gh-pages with main
 - explicit merge
 - fast forward pull
 - explicit pull of branches
-- merge instead of rebase
-- explicit branch handling
-- rebase strategy
+- rename separate pipelines
+- introduce changelog generation with git-chglog ([#13](https://github.com/torbendury/kube-networkpolicy-denier/issues/13))
+- remove gh-pages sync
 - rebase instead of merge
 - allow unrelated main-gh-pages sync
 - correct sync between main and gh-pages
@@ -25,7 +26,7 @@
 - skip existing helm chart version This bothered me for a while now, because not every CI run includes a new Helm release. However, main should be able to produce a release at every time and thus the goal is to keep CI green.
 - correct Make handling
 - correct diff exit code handling
-- integration/e2e test for helm chart Installing the Helm Chart and testing it against a Kubernetes cluster by applying a NetworkPolicy was a manual task until now. From now on, these steps will be done on every push to main automatically. Also, after a successful release, gh-pages branch will be automatically kept in-sync with main. Before, GitHub Actions denied triggering the pages CI to prevent recursion.
+- **docker:** change actual release stage
 
 ### Feat
 - shorten time interval for liveness and readiness probe ([#12](https://github.com/torbendury/kube-networkpolicy-denier/issues/12))

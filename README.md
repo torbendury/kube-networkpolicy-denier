@@ -79,7 +79,7 @@ This project uses a mixed approach for versioning.
 
 ### 📦 Helm Chart
 
-The version of the **Helm Chart** uses [Semantic Versioning](https://semver.org). Although the package has not yet celebrated a `1.0.0` release, it can be considered stable.
+The version of the **Helm Chart** uses [Semantic Versioning](https://semver.org).
 
 ### 🐳 Docker Image
 
