@@ -1,5 +1,5 @@
 .RECIPEPREFIX = >
-.PHONY: ssl run test dev build kube helm local stress
+.PHONY: ssl run test build kube helm local stress
 
 ### Variables
 DEV_IMAGE_NAME := kube-networkpolicy-denier
@@ -21,11 +21,6 @@ test:
 ### Run performance benchmarks
 bench:
 > go test ./... -bench . -count=5 -benchmem | grep -v INFO
-
-### Build the development stage container
-dev:
-> docker build --no-cache -t $(DEV_IMAGE_NAME):dev --target dev .
-> docker run -it --rm -v ${PWD}:/app -p 8443:8443 $(DEV_IMAGE_NAME):dev
 
 ### Build the release container
 # This is not used in the CI/CD pipeline!

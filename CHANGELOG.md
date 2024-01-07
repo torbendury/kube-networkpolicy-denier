@@ -28,6 +28,9 @@
 - correct diff exit code handling
 - **docker:** change actual release stage
 
+### Doc
+- remove stability warning
+
 ### Feat
 - shorten time interval for liveness and readiness probe ([#12](https://github.com/torbendury/kube-networkpolicy-denier/issues/12))
 - **docker:** minify image size ([#15](https://github.com/torbendury/kube-networkpolicy-denier/issues/15))
