@@ -30,6 +30,32 @@ func init() {
 	errorLogger = log.New(os.Stderr, "[ERROR] ", log.Ldate|log.Ltime|log.Lshortfile)
 }
 
+// createAdmissionReviewResponse creates an admission review response.
+func createAdmissionReviewResponse(admissionReview *admissionv1.AdmissionReview) admissionv1.AdmissionReview {
+	admissionResponse := admissionv1.AdmissionResponse{
+		Allowed: false,
+		Result: &metav1.Status{
+			Message: *respMsg,
+		},
+		UID: admissionReview.Request.UID,
+	}
+
+	admissionReviewResponse := admissionv1.AdmissionReview{
+		TypeMeta: metav1.TypeMeta{
+			APIVersion: "admission.k8s.io/v1",
+			Kind:       "AdmissionReview",
+		},
+		Response: &admissionResponse,
+	}
+	return admissionReviewResponse
+}
+
+// writeResponse writes the provided body to the response writer and sets the provided header.
+func writeResponse(w http.ResponseWriter, header int, body []byte) {
+	w.WriteHeader(header)
+	w.Write(body)
+}
+
 // healthHandler handles the health check request.
 // It returns a 200 OK response.
 func healthHandler(w http.ResponseWriter, r *http.Request) {
@@ -38,8 +64,7 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 
 	done := make(chan error, 1)
 	go func() {
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("OK"))
+		writeResponse(w, http.StatusOK, []byte("OK"))
 		done <- nil
 	}()
 
@@ -53,7 +78,6 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // validateHandler is a function that handles the validation of admission review requests.
-// It reads the admission review request, denies all NetworkPolicies, and sends the admission review response.
 // Parameters:
 // - w: http.ResponseWriter - the response writer used to write the admission review response.
 // - r: *http.Request - the HTTP request containing the admission review request.
@@ -67,37 +91,21 @@ func validateHandler(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&admissionReview)
 	if err != nil {
 		errorLogger.Println("Failed to decode admission review request:", err)
-		w.WriteHeader(http.StatusBadRequest)
+		writeResponse(w, http.StatusBadRequest, []byte("Failed to decode admission review request"))
 		return
 	}
 
 	go func() {
 		infoLogger.Println(r.URL.Path, " name: ", admissionReview.Request.Name, " namespace: ", admissionReview.Request.Namespace, " operation: ", admissionReview.Request.Operation, " uid: ", admissionReview.Request.UID)
 
-		// Create the admission response
-		admissionResponse := admissionv1.AdmissionResponse{
-			Allowed: false,
-			Result: &metav1.Status{
-				Message: *respMsg,
-			},
-			UID: admissionReview.Request.UID,
-		}
-
 		// Create the admission review response
-		admissionReviewResponse := admissionv1.AdmissionReview{
-			TypeMeta: metav1.TypeMeta{
-				APIVersion: "admission.k8s.io/v1",
-				Kind:       "AdmissionReview",
-			},
-			Response: &admissionResponse,
-		}
+		admissionReviewResponse := createAdmissionReviewResponse(&admissionReview)
 
-		// Write the admission review response
 		w.Header().Set("Content-Type", "application/json")
 		err = json.NewEncoder(w).Encode(&admissionReviewResponse)
 		if err != nil {
 			errorLogger.Println("Failed to encode admission review response:", err)
-			w.WriteHeader(http.StatusInternalServerError)
+			writeResponse(w, http.StatusInternalServerError, []byte("Failed to encode admission review response"))
 			done <- err
 		}
 
