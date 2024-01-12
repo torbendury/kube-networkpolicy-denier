@@ -36,3 +36,7 @@ docker-compose.override.yaml
 
 # Hacks for local dev
 hack/webhook*
+
+# Other
+cover.out
+cover.html
