@@ -38,6 +38,7 @@
 - **docker:** minify image size ([#15](https://github.com/torbendury/kube-networkpolicy-denier/issues/15))
 
 ### Refactor
+- **core:** split up functionality into separate files This is a small tidying step - a precondition for further refactoring and possible extraction of packages.
 - **core:** extract admission review functionality for better testing capability
 
 
