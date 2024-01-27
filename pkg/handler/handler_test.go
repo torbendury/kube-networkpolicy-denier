@@ -1,4 +1,4 @@
-package main
+package handler
 
 import (
 	"bytes"
@@ -21,7 +21,7 @@ func TestHealthHandler(t *testing.T) {
 	}
 
 	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(healthHandler)
+	handler := http.HandlerFunc(HealthHandler)
 
 	handler.ServeHTTP(rr, req)
 
@@ -66,7 +66,7 @@ func TestValidateHandler(t *testing.T) {
 	}
 
 	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(validateHandler)
+	handler := http.HandlerFunc(ValidateHandler)
 
 	handler.ServeHTTP(rr, req)
 
@@ -126,7 +126,7 @@ func BenchmarkValidateHandler(b *testing.B) {
 		}
 
 		rr := httptest.NewRecorder()
-		handler := http.HandlerFunc(validateHandler)
+		handler := http.HandlerFunc(ValidateHandler)
 		handler.ServeHTTP(rr, req)
 	}
 }
@@ -138,7 +138,7 @@ func BenchmarkHealthHandler(b *testing.B) {
 	}
 
 	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(healthHandler)
+	handler := http.HandlerFunc(HealthHandler)
 
 	for i := 0; i < b.N; i++ {
 		handler.ServeHTTP(rr, req)
