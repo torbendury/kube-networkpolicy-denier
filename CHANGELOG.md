@@ -1,6 +1,9 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+### Docs
+- CHANGELOG
+
 
 <a name="kube-networkpolicy-denier-0.2.0"></a>
 ## [kube-networkpolicy-denier-0.2.0] - 2024-01-27
