@@ -1,6 +1,9 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+### Chore
+- clean Makefile
+
 ### Docs
 - CHANGELOG
 

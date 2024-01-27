@@ -1,3 +1,4 @@
+// Admission package encapsulates the logic for handling admission review requests.
 package admission
 
 import (

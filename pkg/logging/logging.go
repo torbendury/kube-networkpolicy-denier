@@ -1,3 +1,4 @@
+// Logging package. This package wraps the standard log package and provides global logging functions.
 package logging
 
 import (
@@ -15,10 +16,12 @@ func init() {
 	errorLogger = log.New(os.Stderr, "ERROR ", log.Ldate|log.Ltime)
 }
 
+// Info logs a message to stdout. The message is prefixed with "INFO" and the current date and time.
 func Info(msg string) {
 	logger.Println(msg)
 }
 
+// Error logs a message to stderr. The message is prefixed with "ERROR" and the current date and time.
 func Error(msg string) {
 	errorLogger.Println(msg)
 }
