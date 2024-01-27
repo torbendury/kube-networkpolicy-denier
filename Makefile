@@ -61,5 +61,10 @@ stress:
 > sleep 10
 > k6 run hack/k6/breakpoint.js
 
+### Create CPU profile and show pprof http server
+profile:
+> go test -bench=. -cpuprofile=cpu.prof -memprofile=mem.prof -benchmem ./...
+> go tool pprof -http=:8080 cpu.prof
+
 ### Create a complete local environment
 local: build kube helm

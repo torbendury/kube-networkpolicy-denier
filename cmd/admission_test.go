@@ -23,3 +23,14 @@ func TestCreateAdmissionReviewResponse(t *testing.T) {
 		t.Errorf("Expected Result.Message to be %s, got %s", *respMsg, admissionReviewResponse.Response.Result.Message)
 	}
 }
+
+func BenchmarkCreateAdmissionReviewResponse(b *testing.B) {
+	admissionReview := admissionv1.AdmissionReview{
+		Request: &admissionv1.AdmissionRequest{
+			UID: "1234",
+		},
+	}
+	for i := 0; i < b.N; i++ {
+		createAdmissionReviewResponse(&admissionReview)
+	}
+}
