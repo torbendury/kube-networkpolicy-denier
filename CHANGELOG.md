@@ -4,6 +4,9 @@
 ### Chore
 - clean Makefile
 
+### Doc
+- package documentation
+
 ### Docs
 - CHANGELOG
 
