@@ -33,6 +33,9 @@
 - remove stability warning
 - image size
 
+### Docs
+- de-fancify docs The documentation was not easily readable for everyone. This does not spark joy. Emoticons are not displayable everywhere, may cause irritation and do not look the same everywhere.
+
 ### Feat
 - shorten time interval for liveness and readiness probe ([#12](https://github.com/torbendury/kube-networkpolicy-denier/issues/12))
 - **docker:** minify image size ([#15](https://github.com/torbendury/kube-networkpolicy-denier/issues/15))

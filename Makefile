@@ -11,7 +11,7 @@ ssl:
 
 ### Run the server locally as a binary
 run:
-> go run cmd/main.go --cert=hack/webhook.pem --key=hack/webhook-key.pem
+> cd cmd; go run main.go http.go admission.go --cert=../hack/webhook.pem --key=../hack/webhook-key.pem
 
 ### Run the tests
 test:

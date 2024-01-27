@@ -24,7 +24,7 @@ RUN apk update && apk add --no-cache git
 WORKDIR /src
 COPY . .
 RUN go mod download && go mod verify
-RUN mkdir /app && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /app/app cmd/main.go
+RUN mkdir /app && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /app/app cmd/main.go cmd/http.go cmd/admission.go
 
 # Release Stage
 FROM scratch AS release
