@@ -2,6 +2,7 @@
 ## [Unreleased]
 
 ### Chore
+- bump Helm Chart version for release
 - typo
 - **core:** move admission UID retrieval ([#14](https://github.com/torbendury/kube-networkpolicy-denier/issues/14))
 
