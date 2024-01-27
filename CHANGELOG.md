@@ -6,19 +6,20 @@
 - **core:** move admission UID retrieval ([#14](https://github.com/torbendury/kube-networkpolicy-denier/issues/14))
 
 ### Ci
-- explicit pull of branches
+- fast forward pull
+- integration/e2e test for helm chart Installing the Helm Chart and testing it against a Kubernetes cluster by applying a NetworkPolicy was a manual task until now. From now on, these steps will be done on every push to main automatically. Also, after a successful release, gh-pages branch will be automatically kept in-sync with main. Before, GitHub Actions denied triggering the pages CI to prevent recursion.
+- adjust build for refactored code base
 - introduce changelog generation with git-chglog ([#13](https://github.com/torbendury/kube-networkpolicy-denier/issues/13))
-- merge instead of rebase
 - rename separate pipelines
 - remove gh-pages sync
 - automatic resolve of conflicts
 - checkout separate main
 - sync gh-pages with main
-- explicit branch handling
-- fast forward pull
-- integration/e2e test for helm chart Installing the Helm Chart and testing it against a Kubernetes cluster by applying a NetworkPolicy was a manual task until now. From now on, these steps will be done on every push to main automatically. Also, after a successful release, gh-pages branch will be automatically kept in-sync with main. Before, GitHub Actions denied triggering the pages CI to prevent recursion.
+- merge instead of rebase
+- explicit pull of branches
 - correct diff exit code handling
 - explicit merge
+- explicit branch handling
 - rebase strategy
 - rebase instead of merge
 - allow unrelated main-gh-pages sync

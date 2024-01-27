@@ -2,5 +2,5 @@ apiVersion: v2
 name: kube-networkpolicy-denier
 description: An admission controller that denies all NetworkPolicy objects. See the changelog at https://github.com/torbendury/kube-networkpolicy-denier/blob/main/CHANGELOG.md
 type: application
-version: 0.1.0
+version: 0.2.0
 appVersion: "2c58129"
