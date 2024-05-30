@@ -1,7 +1,11 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+
+<a name="kube-networkpolicy-denier-1.0.1"></a>
+## [kube-networkpolicy-denier-1.0.1] - 2024-05-30
 ### Chore
+- update go module versions mainly to get rid of the theoretical GO-2024-2687 vulnerability
 - update go 1.22.3
 
 ### Fix
@@ -191,7 +195,8 @@
 - **core:** logging and correct API implementation Implement some very basic logging for startup, errors and incoming requests. Since my first run of this on a minikube cluster and a deeper glance at the ValidationWebhookConfiguration API, I found out that it is not sufficient to just return a non-200 status code but one has to correctly implement the AdmissionReview API. I did this in the easiest + fastest possible way for now.
 
 
-[Unreleased]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-1.0.0...HEAD
+[Unreleased]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-1.0.1...HEAD
+[kube-networkpolicy-denier-1.0.1]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-1.0.0...kube-networkpolicy-denier-1.0.1
 [kube-networkpolicy-denier-1.0.0]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-0.2.0...kube-networkpolicy-denier-1.0.0
 [kube-networkpolicy-denier-0.2.0]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-0.1.0...kube-networkpolicy-denier-0.2.0
 [kube-networkpolicy-denier-0.1.0]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-0.0.5...kube-networkpolicy-denier-0.1.0
