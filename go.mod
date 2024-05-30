@@ -1,6 +1,6 @@
 module github.com/torbendury/kube-networkpolicy-denier
 
-go 1.21.5
+go 1.22.3
 
 require (
 	k8s.io/api v0.28.4
