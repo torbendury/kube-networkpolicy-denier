@@ -1,6 +1,9 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+### Chore
+- update go 1.22.3
+
 ### Fix
 - **handler:** superfluous ResponseWriter calls All HTTP responses are calculated inside goroutines. The HTTP handler functions have their own timeouts, after which a timeout error is sent back to the client in case the goroutine does not react fast enough. However, this does not stop the goroutine from running. In theoretical scenarios, this could've resulted in superfluous calls to ResponseWriter, because the writeResponse function had no information about the request context already being done. Now, the writeResponse function checks if the request context it is running inside is already done. If it is done, it does not write the calculated response anymore.
 
