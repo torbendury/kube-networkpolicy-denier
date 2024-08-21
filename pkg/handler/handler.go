@@ -15,14 +15,20 @@ import (
 )
 
 var (
-	RespMsg string
+	RespMsg        string
+	ErrContextDone = fmt.Errorf("the request context is already done")
 )
 
 // writeResponse writes the provided body to the response writer and sets the provided header.
-func writeResponse(w http.ResponseWriter, header int, body []byte) error {
-	w.WriteHeader(header)
-	_, err := w.Write(body)
-	return err
+func writeResponse(ctx context.Context, w http.ResponseWriter, header int, body []byte) error {
+	select {
+	case <-ctx.Done():
+		return ErrContextDone
+	default:
+		w.WriteHeader(header)
+		_, err := w.Write(body)
+		return err
+	}
 }
 
 // HealthHandler handles the health check request.
@@ -32,8 +38,9 @@ func HealthHandler(w http.ResponseWriter, r *http.Request) {
 	defer cancel()
 
 	done := make(chan error, 1)
+
 	go func() {
-		err := writeResponse(w, http.StatusOK, []byte("OK"))
+		err := writeResponse(ctx, w, http.StatusOK, []byte("OK"))
 		done <- err
 	}()
 
@@ -63,7 +70,7 @@ func ValidateHandler(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&admissionReview)
 	if err != nil {
 		log.Error(fmt.Sprintf("Failed to decode admission review request: %v", err))
-		respErr := writeResponse(w, http.StatusBadRequest, []byte("Failed to decode admission review request"))
+		respErr := writeResponse(ctx, w, http.StatusBadRequest, []byte("Failed to decode admission review request"))
 		if respErr != nil {
 			log.Error(fmt.Sprintf("Failed to return error response: %v", err))
 		}
@@ -80,7 +87,7 @@ func ValidateHandler(w http.ResponseWriter, r *http.Request) {
 		err = json.NewEncoder(w).Encode(&admissionReviewResponse)
 		if err != nil {
 			log.Error(fmt.Sprintf("Failed to encode admission review response: %v", err))
-			respErr := writeResponse(w, http.StatusInternalServerError, []byte("Failed to encode admission review response"))
+			respErr := writeResponse(ctx, w, http.StatusInternalServerError, []byte("Failed to encode admission review response"))
 			if respErr != nil {
 				log.Error(fmt.Sprintf("Failed to return error response: %v", err))
 			}

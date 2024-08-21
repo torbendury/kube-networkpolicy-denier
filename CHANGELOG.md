@@ -1,8 +1,28 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+
+<a name="kube-networkpolicy-denier-1.0.1"></a>
+## [kube-networkpolicy-denier-1.0.1] - 2024-05-30
 ### Chore
+- update go module versions mainly to get rid of the theoretical GO-2024-2687 vulnerability
+- update go 1.22.3
+
+### Fix
+- **handler:** superfluous ResponseWriter calls All HTTP responses are calculated inside goroutines. The HTTP handler functions have their own timeouts, after which a timeout error is sent back to the client in case the goroutine does not react fast enough. However, this does not stop the goroutine from running. In theoretical scenarios, this could've resulted in superfluous calls to ResponseWriter, because the writeResponse function had no information about the request context already being done. Now, the writeResponse function checks if the request context it is running inside is already done. If it is done, it does not write the calculated response anymore.
+
+### Hack
+- dont error out if no certs exist locally
+
+
+<a name="kube-networkpolicy-denier-1.0.0"></a>
+## [kube-networkpolicy-denier-1.0.0] - 2024-01-27
+### Chore
+- bump Helm Chart version this does not contain any real changes. The API has matured enough to publish a first stable version of it. whoop whoop.
 - clean Makefile
+
+### Doc
+- package documentation
 
 ### Docs
 - CHANGELOG
@@ -175,7 +195,9 @@
 - **core:** logging and correct API implementation Implement some very basic logging for startup, errors and incoming requests. Since my first run of this on a minikube cluster and a deeper glance at the ValidationWebhookConfiguration API, I found out that it is not sufficient to just return a non-200 status code but one has to correctly implement the AdmissionReview API. I did this in the easiest + fastest possible way for now.
 
 
-[Unreleased]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-0.2.0...HEAD
+[Unreleased]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-1.0.1...HEAD
+[kube-networkpolicy-denier-1.0.1]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-1.0.0...kube-networkpolicy-denier-1.0.1
+[kube-networkpolicy-denier-1.0.0]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-0.2.0...kube-networkpolicy-denier-1.0.0
 [kube-networkpolicy-denier-0.2.0]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-0.1.0...kube-networkpolicy-denier-0.2.0
 [kube-networkpolicy-denier-0.1.0]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-0.0.5...kube-networkpolicy-denier-0.1.0
 [kube-networkpolicy-denier-0.0.5]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-0.0.4...kube-networkpolicy-denier-0.0.5
