@@ -1,6 +1,9 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+### Chore
+- CHANGELOG
+
 
 <a name="kube-networkpolicy-denier-1.0.1"></a>
 ## [kube-networkpolicy-denier-1.0.1] - 2024-05-30
