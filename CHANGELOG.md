@@ -2,6 +2,7 @@
 ## [Unreleased]
 
 ### Chore
+- dependency updates ([#19](https://github.com/torbendury/kube-networkpolicy-denier/issues/19))
 - CHANGELOG
 
 
