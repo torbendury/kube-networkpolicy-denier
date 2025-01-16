@@ -1,7 +1,17 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+
+<a name="kube-networkpolicy-denier-1.0.3"></a>
+## [kube-networkpolicy-denier-1.0.3] - 2024-11-02
+### Feat
+- Golang 1.23 and deps ([#20](https://github.com/torbendury/kube-networkpolicy-denier/issues/20))
+
+
+<a name="kube-networkpolicy-denier-1.0.2"></a>
+## [kube-networkpolicy-denier-1.0.2] - 2024-08-21
 ### Chore
+- bump helm chart version
 - dependency updates ([#19](https://github.com/torbendury/kube-networkpolicy-denier/issues/19))
 - CHANGELOG
 
@@ -199,7 +209,9 @@
 - **core:** logging and correct API implementation Implement some very basic logging for startup, errors and incoming requests. Since my first run of this on a minikube cluster and a deeper glance at the ValidationWebhookConfiguration API, I found out that it is not sufficient to just return a non-200 status code but one has to correctly implement the AdmissionReview API. I did this in the easiest + fastest possible way for now.
 
 
-[Unreleased]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-1.0.1...HEAD
+[Unreleased]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-1.0.3...HEAD
+[kube-networkpolicy-denier-1.0.3]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-1.0.2...kube-networkpolicy-denier-1.0.3
+[kube-networkpolicy-denier-1.0.2]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-1.0.1...kube-networkpolicy-denier-1.0.2
 [kube-networkpolicy-denier-1.0.1]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-1.0.0...kube-networkpolicy-denier-1.0.1
 [kube-networkpolicy-denier-1.0.0]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-0.2.0...kube-networkpolicy-denier-1.0.0
 [kube-networkpolicy-denier-0.2.0]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-0.1.0...kube-networkpolicy-denier-0.2.0
