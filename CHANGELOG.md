@@ -2,6 +2,12 @@
 ## [Unreleased]
 
 
+<a name="kube-networkpolicy-denier-1.0.4"></a>
+## [kube-networkpolicy-denier-1.0.4] - 2025-01-16
+### Chore
+- chglog
+
+
 <a name="kube-networkpolicy-denier-1.0.3"></a>
 ## [kube-networkpolicy-denier-1.0.3] - 2024-11-02
 ### Feat
@@ -209,7 +215,8 @@
 - **core:** logging and correct API implementation Implement some very basic logging for startup, errors and incoming requests. Since my first run of this on a minikube cluster and a deeper glance at the ValidationWebhookConfiguration API, I found out that it is not sufficient to just return a non-200 status code but one has to correctly implement the AdmissionReview API. I did this in the easiest + fastest possible way for now.
 
 
-[Unreleased]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-1.0.3...HEAD
+[Unreleased]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-1.0.4...HEAD
+[kube-networkpolicy-denier-1.0.4]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-1.0.3...kube-networkpolicy-denier-1.0.4
 [kube-networkpolicy-denier-1.0.3]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-1.0.2...kube-networkpolicy-denier-1.0.3
 [kube-networkpolicy-denier-1.0.2]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-1.0.1...kube-networkpolicy-denier-1.0.2
 [kube-networkpolicy-denier-1.0.1]: https://github.com/torbendury/kube-networkpolicy-denier/compare/kube-networkpolicy-denier-1.0.0...kube-networkpolicy-denier-1.0.1
